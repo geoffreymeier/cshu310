@@ -1,0 +1,42 @@
+CS-HU 310: Intro to Databases
+Final Project
+Query List
+------------------------------------------------------------------------
+
+GetItems(String Code):
+	select * from Item where ode = ItemCode or code = '%';
+GetShipments(String code):
+	select s.* from Shipment s 
+		left join Item i on i.ID = s.ItemID
+	where code = ItemCode or code = '%';
+GetPurchases(String code):
+	select s.* from Shipment s 
+		left join Item i on i.ID = s.ItemID
+	where code = ItemCode or code = '%';
+
+ItemsAvailable(String code):
+	select  ItemCode, 
+		ItemDescription, 
+		IFNULL(sum(s.Quantity),0) - IFNULL(sum(p.Quantity),0) 
+			as NumAvailable
+	from Item i
+		left join Shipment s on i.ID = s.ID
+		left join Purchase p on i.ID = p.ID
+	where code = ItemCode or code = '%';
+
+UpdateItem(String code, double price):
+	update Item set Price = price where ItemCode = code;
+
+DeleteItem(String code):
+	delete from Item where code = ItemCode;
+DeleteShipment(String code):
+	delete s from Shipment
+		left join Item i on i.ID = s.ItemID
+	where code = ItemCode
+	having ShipmentDate = max(ShipmentDate);
+DeletePurchase(String code):
+	delete p from Purchase
+		left join Item i on i.ID = p.ItemID
+	where code = ItemCode
+	having PurchaseDate = max(PurchaseDate);
+
