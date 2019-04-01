@@ -2,6 +2,82 @@ CS-HU 310: Intro to Databases
 Final Project
 Query List
 ------------------------------------------------------------------------
+public static String CreateItem(String code, String description, float price){
+	PreparedStatement stmt = null;
+	try {
+		stmt = CON.prepareStatement("Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
+		stmt.setString(1, code); // input parameter			
+		stmt.setString(2, description);
+		stmt.setString(3, price);
+      		return(("Item "+code+" created succesfully"))
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
+
+public static String CreatePurchase(String code, int quantity){
+	PreparedStatement stmt = null;
+	try {
+		stmt = CON.prepareStatement("Insert into Purchase (ItemID, Quantity) \n values(?,?);");
+		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+		stmt.setString(2, quantity);
+      		return(("Purchase created succesfully"))
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
+
+public static String CreateShipment(String code, int quantity, Date day){
+	PreparedStatement stmt = null;
+	try {
+		stmt = CON.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
+		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+		stmt.setString(2, quantity);
+		stmt.setString(3,"\'"+day.toString+"\'");
+      		return(("Shipment created succesfully"))
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
 
 GetItems(String Code):
 	select * from Item where ode = ItemCode or code = '%';
