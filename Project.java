@@ -6,17 +6,17 @@ import java.util.*;
 //import com.jcraft.jsch.*;
 
 public class Project{
+	
 	private static Connection con;
 
 	public static void main(String[] args)throws ClassNotFoundException,  SQLException  {
+	Class.forName("com.mysql.jdbc.Driver");
+	con = DriverManager.getConnection("jdbc:mysql://localhost:5940", "msandbox", "databasepassword");
+	System.out.println(con.toString());
 	if(args.length==0){
 	System.err.println ("Use java Project /? to get usage info");
 	System.exit(0);
 	}
-	Class.forName("com.mysql.jdbc.Driver");
-	con = DriverManager.getConnection("jdbc:mysql://localhost:5940/db2?verifyServerCertificate=false&useSSL=true", "msandbox", "databasepassword");
-	System.out.println(con.toString());
-
 	if (args[0].equals("/?") ){
 		System.out.println ("Usage : java Project CreateItem <itemCode> <itemDescription> <price>");
 		System.out.println ("Usage : java Project CreatePurchase <itemCode> <PurchaseQuantity>");
@@ -41,7 +41,7 @@ public class Project{
 			}else if(args[0]=="GetShipments"){
 				System.out.println(ProjectMethods.getShipments(args[1]));
 			}else if(args[0]=="GetPurchases"){
-				System.out.println(ProjectMethods.getPurchses(args[1]));
+				System.out.println(ProjectMethods.getPurchases(args[1]));
 			}else if(args[0]=="ItemsAvailable"){
 				System.out.println(ProjectMethods.itemsAvailable(args[1]));
 			}else if(args[0]=="UpdateItem"){
@@ -66,9 +66,10 @@ public class Project{
 				System.out.println ("Usage : java Project DeletePurchase <itemCode>");
 			}
 		}
+
 	con.close();
 	}
-
+	
 	/**
 	 * Return the connection to the database.
 	 * @return
