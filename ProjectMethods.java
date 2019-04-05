@@ -1,3 +1,5 @@
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -10,7 +12,85 @@ import java.sql.SQLException;
  *
  */
 public class ProjectMethods {
-	
+	public static String createItem(String code, String description, float price){
+	PreparedStatement stmt = null;
+	Connection con = getConnection();
+	try {
+		stmt = con.prepareStatement("Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
+		stmt.setString(1, ""+code); // input parameter			
+		stmt.setString(2, ""+description);
+		stmt.setString(3, ""+price);
+      		return(("Item "+code+" created succesfully"));
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
+
+public static String createPurchase(String code, int quantity){
+	PreparedStatement stmt = null;
+	Connection con = getConnection();
+	try {
+		stmt = con.prepareStatement("Insert into Purchase (ItemID, Quantity) \n values(?,?);");
+		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+		stmt.setString(2, ""+quantity);
+      		return(("Purchase created succesfully"));
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
+
+public static String createShipment(String code, int quantity, Date day){
+	PreparedStatement stmt = null;
+	Connection con = getConnection();
+	try {
+		stmt = con.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
+		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+		stmt.setString(2, ""+quantity);
+		stmt.setString(3,"\'"+day.toString()+"\'");
+      		return(("Shipment created succesfully"));
+	} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+	} finally {
+		// it is a good idea to release resources in a finally{} block
+		// in reverse-order of their creation if they are no-longer needed
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException sqlEx) {
+			} // ignore
+			stmt = null;
+		}
+	}
+}
 	
 	public static String getItems(String itemCode) {
 		
