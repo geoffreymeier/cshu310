@@ -9,16 +9,13 @@ public class Project{
 	private static Connection con;
 
 	public static void main(String[] args)throws ClassNotFoundException,  SQLException  {
-	Class.forName("com.mysql.jdbc.Driver");
-	con = DriverManager.getConnection("jdbc:mysql://localhost:5940", "msandbox", "databasepassword");
-	System.out.println(con.toString());d
 	if(args.length==0){
 	System.err.println ("Use java Project /? to get usage info");
 	System.exit(0);
 	}
 	Class.forName("com.mysql.jdbc.Driver");
-	CON = DriverManager.getConnection("jdbc:mysql://localhost:5940/db2?verifyServerCertificate=false&useSSL=true", "msandbox", "databasepassword");
-	System.out.println(CON.toString());
+	con = DriverManager.getConnection("jdbc:mysql://localhost:5940/db2?verifyServerCertificate=false&useSSL=true", "msandbox", "databasepassword");
+	System.out.println(con.toString());
 
 	if (args[0].equals("/?") ){
 		System.out.println ("Usage : java Project CreateItem <itemCode> <itemDescription> <price>");
