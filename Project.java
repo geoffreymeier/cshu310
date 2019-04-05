@@ -1,18 +1,17 @@
-
-
-
-
 import java.io.*;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 //import com.jcraft.jsch.*;
 
 public class Project{
+	
+	private static Connection con;
 
 	public static void main(String[] args)throws ClassNotFoundException,  SQLException  {
 	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:5940", "msandbox", "databasepassword");
+	con = DriverManager.getConnection("jdbc:mysql://localhost:5940", "msandbox", "databasepassword");
 	System.out.println(con.toString());
 	if(args.length==0){
 	System.err.println ("Use java Project /? to get usage info");
@@ -32,27 +31,27 @@ public class Project{
 		System.out.println ("Usage : java Project DeletePurchase <itemCode>");
 		}else {
 			if(args[0]=="CreateItem"){
-				System.out.println(CreateItem(args[1],args[2],Float.parseFloat(args[3])));
+				System.out.println(ProjectMethods.createItem(args[1],args[2],Float.parseFloat(args[3])));
 			}else if(args[0]=="CreatePurchase"){
-				System.out.println(CreatePurchase(args[1],Integer.parseInt(args[2])));
+				System.out.println(ProjectMethods.createPurchase(args[1],Integer.parseInt(args[2])));
 			}else if(args[0]=="CreateShipment"){
-				System.out.println(CreateShipment(args[1],Integer.parseInt(args[2]),Date.valueOf(args[3])));
+				System.out.println(ProjectMethods.createShipment(args[1],Integer.parseInt(args[2]),Date.valueOf(args[3])));
 			}else if(args[0]=="GetItems"){
-				System.out.println(GetItems(args[1]));
+				System.out.println(ProjectMethods.getItems(args[1]));
 			}else if(args[0]=="GetShipments"){
-				System.out.println(GetShipments(args[1]));
+				System.out.println(ProjectMethods.getShipments(args[1]));
 			}else if(args[0]=="GetPurchases"){
-				System.out.println(GetPurchses(args[1]));
+				System.out.println(ProjectMethods.getPurchses(args[1]));
 			}else if(args[0]=="ItemsAvailable"){
-				System.out.println(ItemsAvailable(args[1]));
+				System.out.println(ProjectMethods.itemsAvailable(args[1]));
 			}else if(args[0]=="UpdateItem"){
-				System.out.println(UpdateItem(args[1],Float.parseFloat(args[2])));
+				System.out.println(ProjectMethods.updateItem(args[1],Float.parseFloat(args[2])));
 			}else if(args[0]=="DeleteItem"){
-				System.out.println(DeleteItem(args[1]));
+				System.out.println(ProjectMethods.deleteItem(args[1]));
 			}else if(args[0]=="DeleteShipment"){
-				System.out.println(DeleteShipment(args[1]));
+				System.out.println(ProjectMethods.deleteShipment(args[1]));
 			}else if(args[0]=="DeletePurchase"){
-				System.out.println(DeletePurchase(args[1]));
+				System.out.println(ProjectMethods.deletePurchase(args[1]));
 			}else {
 				System.out.println ("Usage : java Project CreateItem <itemCode> <itemDescription> <price>");
 				System.out.println ("Usage : java Project CreatePurchase <itemCode> <PurchaseQuantity>");
@@ -70,8 +69,12 @@ public class Project{
 
 	con.close();
 	}
-
-
-
-
+	
+	/**
+	 * Return the connection to the database.
+	 * @return
+	 */
+	public static Connection getConnection() {
+		return con;
+	}
 }
