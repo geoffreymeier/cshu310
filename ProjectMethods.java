@@ -13,96 +13,99 @@ import java.sql.SQLException;
  */
 public class ProjectMethods {
 	public static String createItem(String code, String description, float price){
-	PreparedStatement stmt = null;
-	Connection con = getConnection();
-	try {
-		stmt = con.prepareStatement("Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
-		stmt.setString(1, ""+code); // input parameter			
-		stmt.setString(2, ""+description);
-		stmt.setString(3, ""+price);
-      		System.out.println(("Item "+code+" created succesfully"));
-	} catch (SQLException ex) {
-			// handle any errors
-			System.err.println("SQLException: " + ex.getMessage());
-			System.err.println("SQLState: " + ex.getSQLState());
-			System.err.println("VendorError: " + ex.getErrorCode());
-	} finally {
-		// it is a good idea to release resources in a finally{} block
-		// in reverse-order of their creation if they are no-longer needed
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) {
-			} // ignore
-			stmt = null;
-		}
-		return("");
-	}
-}
-
-public static String createPurchase(String code, int quantity){
-	PreparedStatement stmt = null;
-	Connection con = getConnection();
-	try {
-		stmt = con.prepareStatement("Insert into Purchase (ItemID, Quantity) \n values(?,?);");
-		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
-		stmt.setString(2, ""+quantity);
-      		System.out.println(("Purchase created succesfully"));
-	} catch (SQLException ex) {
-			// handle any errors
-			System.err.println("SQLException: " + ex.getMessage());
-			System.err.println("SQLState: " + ex.getSQLState());
-			System.err.println("VendorError: " + ex.getErrorCode());
-	} finally {
-		// it is a good idea to release resources in a finally{} block
-		// in reverse-order of their creation if they are no-longer needed
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) {
-			} // ignore
-			stmt = null;
-		}
-		return("");
-	}
-}
-
-public static String createShipment(String code, int quantity, Date day){
-	PreparedStatement stmt = null;
-	Connection con = getConnection();
-	try {
-		stmt = con.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
-		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
-		stmt.setString(2, ""+quantity);
-		stmt.setString(3,"\'"+day.toString()+"\'");
-      		System.out.println(("Shipment created succesfully"));
-	} catch (SQLException ex) {
-			// handle any errors
-			System.err.println("SQLException: " + ex.getMessage());
-			System.err.println("SQLState: " + ex.getSQLState());
-			System.err.println("VendorError: " + ex.getErrorCode());
-	} finally {
-		// it is a good idea to release resources in a finally{} block
-		// in reverse-order of their creation if they are no-longer needed
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) {
-			} // ignore
-			stmt = null;
-		}
-		return("");
-	}
-}
-	
-	public static String getItems(String itemCode) {
-		
+		PreparedStatement stmt = null;
 		Connection con = getConnection();
-		
+		try {
+			stmt = con.prepareStatement("Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
+			stmt.setString(1, ""+code); // input parameter			
+			stmt.setString(2, ""+description);
+			stmt.setString(3, ""+price);
+			System.out.println(("Item "+code+" created succesfully"));
+		} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+		} finally {
+			// it is a good idea to release resources in a finally{} block
+			// in reverse-order of their creation if they are no-longer needed
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException sqlEx) {
+				} // ignore
+				stmt = null;
+			}
+		}
+
+		return("");
+	}
+
+	public static String createPurchase(String code, int quantity){
+		PreparedStatement stmt = null;
+		Connection con = getConnection();
+		try {
+			stmt = con.prepareStatement("Insert into Purchase (ItemID, Quantity) \n values(?,?);");
+			stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+			stmt.setString(2, ""+quantity);
+			System.out.println(("Purchase created succesfully"));
+		} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+		} finally {
+			// it is a good idea to release resources in a finally{} block
+			// in reverse-order of their creation if they are no-longer needed
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException sqlEx) {
+				} // ignore
+				stmt = null;
+			}
+		}
+
+		return("");
+	}
+
+	public static String createShipment(String code, int quantity, Date day){
+		PreparedStatement stmt = null;
+		Connection con = getConnection();
+		try {
+			stmt = con.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
+			stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
+			stmt.setString(2, ""+quantity);
+			stmt.setString(3,"\'"+day.toString()+"\'");
+			System.out.println(("Shipment created succesfully"));
+		} catch (SQLException ex) {
+			// handle any errors
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+		} finally {
+			// it is a good idea to release resources in a finally{} block
+			// in reverse-order of their creation if they are no-longer needed
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException sqlEx) {
+				} // ignore
+				stmt = null;
+			}
+		}
+
+		return("");
+	}
+
+	public static String getItems(String itemCode) {
+
+		Connection con = getConnection();
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from Item where "+itemCode+" = ItemCode or "+itemCode+"= '%'");
-			
+
 			String table = getTable(rs);
 			return table;
 		} catch (SQLException e) {
@@ -111,150 +114,150 @@ public static String createShipment(String code, int quantity, Date day){
 		}
 	}
 
-	
+
 	public static String getShipments(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select s.* from Shipment s " + 
-											 "		left join Item i on i.ID = s.ItemID" + 
-											 "	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
-			
+					"		left join Item i on i.ID = s.ItemID" + 
+					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+
 			String table = getTable(rs);
 			return table;
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
+
 	public static String getPurchases(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select s.* from Purchase p " + 
-											 "		left join Item i on i.ID = p.ItemID" + 
-											 "	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
-			
+					"		left join Item i on i.ID = p.ItemID" + 
+					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+
 			String table = getTable(rs);
 			return table;
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
+
 	public static String itemsAvailable(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select  ItemCode, \n" + 
-											 "		ItemDescription, \n" + 
-											 "		IFNULL(sum(s.Quantity),0) - IFNULL(sum(p.Quantity),0) \n" + 
-											 "			as NumAvailable\n" + 
-											 "	from Item i\n" + 
-											 "		left join Shipment s on i.ID = s.ID\n" + 
-											 "		left join Purchase p on i.ID = p.ID\n" + 
-											 "	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
-				
+					"		ItemDescription, \n" + 
+					"		IFNULL(sum(s.Quantity),0) - IFNULL(sum(p.Quantity),0) \n" + 
+					"			as NumAvailable\n" + 
+					"	from Item i\n" + 
+					"		left join Shipment s on i.ID = s.ID\n" + 
+					"		left join Purchase p on i.ID = p.ID\n" + 
+					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+
 			String table = getTable(rs);
 			return table;
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
-	
+
+
 	public static String updateItem(String itemCode,double price) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate("update Item set Price = "+price+" where ItemCode = "+itemCode+";");
-			
+
 			return result+" records affected.";
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
-	
+
+
 	public static String deleteItem(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate("delete from Item where ItemCode = "+itemCode+";");
-			
+
 			return result+" records affected.";
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
-	
+
+
 	public static String deleteShipment(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate("delete s from Shipment\n" + 
-											"		left join Item i on i.ID = s.ItemID\n" + 
-											"	where "+itemCode+" = ItemCode\n" + 
-											"	having ShipmentDate = max(ShipmentDate);");
-			
+					"		left join Item i on i.ID = s.ItemID\n" + 
+					"	where "+itemCode+" = ItemCode\n" + 
+					"	having ShipmentDate = max(ShipmentDate);");
+
 			return result+" records affected.";
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
+
 	public static String deletePurchase(String itemCode) {
-		
+
 		Connection con = getConnection();
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate("delete p from Purchase\n" + 
-											"		left join Item i on i.ID = p.ItemID\n" + 
-											"	where "+itemCode+" = ItemCode\n" + 
-											"	having PurchaseDate = max(PurchaseDate);");
-			
+					"		left join Item i on i.ID = p.ItemID\n" + 
+					"	where "+itemCode+" = ItemCode\n" + 
+					"	having PurchaseDate = max(PurchaseDate);");
+
 			return result+" records affected.";
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Return the connection from the Project
 	 * @return
 	 */
 	private static Connection getConnection() {
-		 return Project.getConnection(); //get the connection to the database
+		return Project.getConnection(); //get the connection to the database
 	}
 
 	/**
