@@ -9,7 +9,7 @@ public class Project{
 	
 	private static Connection con;
 
-	public static void main(String[] args)throws ClassNotFoundException,  SQLException  {
+	public static void main(String[] args)throws ClassNotFoundException,  SQLException, InstantiationException, IllegalAccessException  {
 	Class.forName("com.mysql.jdbc.Driver").newInstance();
 	con = DriverManager.getConnection("jdbc:mysql://localhost:5940", "msandbox", "databasepassword");
 	System.out.println(con.toString());
