@@ -30,27 +30,27 @@ public class Project{
 		System.out.println ("Usage : java Project DeleteShipment <itemCode>");
 		System.out.println ("Usage : java Project DeletePurchase <itemCode>");
 		}else {
-			if(args[0]=="CreateItem"){
+			if(args[0].equals("CreateItem")){
 				System.out.println(ProjectMethods.createItem(args[1],args[2],Float.parseFloat(args[3])));
-			}else if(args[0]=="CreatePurchase"){
+			}else if(args[0].equals("CreatePurchase")){
 				System.out.println(ProjectMethods.createPurchase(args[1],Integer.parseInt(args[2])));
-			}else if(args[0]=="CreateShipment"){
+			}else if(args[0].equals("CreateShipment")){
 				System.out.println(ProjectMethods.createShipment(args[1],Integer.parseInt(args[2]),Date.valueOf(args[3])));
-			}else if(args[0]=="GetItems"){
+			}else if(args[0].equals("GetItems")){
 				System.out.println(ProjectMethods.getItems(args[1]));
-			}else if(args[0]=="GetShipments"){
+			}else if(args[0].equals("GetShipments")){
 				System.out.println(ProjectMethods.getShipments(args[1]));
-			}else if(args[0]=="GetPurchases"){
+			}else if(args[0].equals("GetPurchases")){
 				System.out.println(ProjectMethods.getPurchases(args[1]));
-			}else if(args[0]=="ItemsAvailable"){
+			}else if(args[0].equals("ItemsAvailable")){
 				System.out.println(ProjectMethods.itemsAvailable(args[1]));
-			}else if(args[0]=="UpdateItem"){
+			}else if(args[0].equals("UpdateItem")){
 				System.out.println(ProjectMethods.updateItem(args[1],Float.parseFloat(args[2])));
-			}else if(args[0]=="DeleteItem"){
+			}else if(args[0].equals("DeleteItem")){
 				System.out.println(ProjectMethods.deleteItem(args[1]));
-			}else if(args[0]=="DeleteShipment"){
+			}else if(args[0].equals("DeleteShipment")){
 				System.out.println(ProjectMethods.deleteShipment(args[1]));
-			}else if(args[0]=="DeletePurchase"){
+			}else if(args[0].equals("DeletePurchase")){
 				System.out.println(ProjectMethods.deletePurchase(args[1]));
 			}else {
 				System.out.println ("Usage : java Project CreateItem <itemCode> <itemDescription> <price>");

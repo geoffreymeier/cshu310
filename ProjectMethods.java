@@ -16,10 +16,11 @@ public class ProjectMethods {
 	PreparedStatement stmt = null;
 	Connection con = getConnection();
 	try {
-		stmt = con.prepareStatement("Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
+		stmt = con.prepareStatement("use db2; Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
 		stmt.setString(1, ""+code); // input parameter			
 		stmt.setString(2, ""+description);
 		stmt.setString(3, ""+price);
+		stmt.execute();
       		System.out.println(("Item "+code+" created succesfully"));
 	} catch (SQLException ex) {
 			// handle any errors
@@ -44,7 +45,7 @@ public static String createPurchase(String code, int quantity){
 	PreparedStatement stmt = null;
 	Connection con = getConnection();
 	try {
-		stmt = con.prepareStatement("Insert into Purchase (ItemID, Quantity) \n values(?,?);");
+		stmt = con.prepareStatement("use db2; Insert into Purchase (ItemID, Quantity) \n values(?,?);");
 		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
 		stmt.setString(2, ""+quantity);
       		System.out.println(("Purchase created succesfully"));
@@ -71,7 +72,7 @@ public static String createShipment(String code, int quantity, Date day){
 	PreparedStatement stmt = null;
 	Connection con = getConnection();
 	try {
-		stmt = con.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
+		stmt = con.prepareStatement("use db2; Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
 		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
 		stmt.setString(2, ""+quantity);
 		stmt.setString(3,"\'"+day.toString()+"\'");
