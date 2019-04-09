@@ -108,7 +108,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("use db2; select * from Item where "+itemCode+" = ItemCode or "+itemCode+"= '%'");
+			ResultSet rs = stmt.executeQuery("use db2; select * from Item where \""+itemCode+"\" = ItemCode or \""+itemCode+"\" = '%'");
 
 			String table = getTable(rs);
 			return table;
@@ -127,7 +127,7 @@ public static String createPurchase(String code, int quantity){
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("use db2; select s.* from Shipment s " + 
 					"		left join Item i on i.ID = s.ItemID" + 
-					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+					"	where \""+itemCode+"\" = ItemCode or \""+itemCode+"\" = '%';");
 
 			String table = getTable(rs);
 			return table;
@@ -146,7 +146,7 @@ public static String createPurchase(String code, int quantity){
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("use db2; select s.* from Purchase p " + 
 					"		left join Item i on i.ID = p.ItemID" + 
-					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+					"	where \""+itemCode+"\" = ItemCode or \""+itemCode+"\" = '%';");
 
 			String table = getTable(rs);
 			return table;
@@ -170,7 +170,8 @@ public static String createPurchase(String code, int quantity){
 					"	from Item i\n" + 
 					"		left join Shipment s on i.ID = s.ID\n" + 
 					"		left join Purchase p on i.ID = p.ID\n" + 
-					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
+					"	where \""+itemCode+"\" = ItemCode or \""+itemCode+"\" = '%'" +
+					"	group by ItemCode, ItemDescription;");
 
 			String table = getTable(rs);
 			return table;
@@ -188,7 +189,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("use db2; update Item set Price = "+price+" where ItemCode = "+itemCode+";");
+			int result = stmt.executeUpdate("use db2; update Item set Price = "+price+" where ItemCode = \""+itemCode+"\";");
 
 			return result+" records affected.";
 
@@ -205,7 +206,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("use db2; delete from Item where ItemCode = "+itemCode+";");
+			int result = stmt.executeUpdate("use db2; delete from Item where ItemCode = \""+itemCode+"\";");
 
 			return result+" records affected.";
 
@@ -224,27 +225,8 @@ public static String createPurchase(String code, int quantity){
 			java.sql.Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate("use db2; delete s from Shipment\n" + 
 					"		left join Item i on i.ID = s.ItemID\n" + 
-					"	where "+itemCode+" = ItemCode\n" + 
+					"	where \""+itemCode+"\" = ItemCode\n" + 
 					"	having ShipmentDate = max(ShipmentDate);");
-
-			return result+" records affected.";
-
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return "";
-		}
-	}
-
-	public static String deletePurchase(String itemCode) {
-
-		Connection con = getConnection();
-
-		try {
-			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("use db2; delete p from Purchase\n" + 
-					"		left join Item i on i.ID = p.ItemID\n" + 
-					"	where "+itemCode+" = ItemCode\n" + 
-					"	having PurchaseDate = max(PurchaseDate);");
 
 			return result+" records affected.";
 
