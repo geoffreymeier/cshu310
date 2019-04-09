@@ -16,7 +16,7 @@ public class ProjectMethods {
 	PreparedStatement stmt = null;
 	Connection con = getConnection();
 	try {
-		stmt = con.prepareStatement("use db2; Insert into Item (ItemCode, ItemDescription, Price) \n values(?,?,?);");
+		stmt = con.prepareStatement("use db2; Insert into Item (ItemCode, ItemDescription, Price)  values(?,?,?);");
 		stmt.setString(1, ""+code); // input parameter			
 		stmt.setString(2, ""+description);
 		stmt.setString(3, ""+price);
@@ -75,7 +75,7 @@ public static String createPurchase(String code, int quantity){
 		PreparedStatement stmt = null;
 		Connection con = getConnection();
 		try {
-			stmt = con.prepareStatement("Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
+			stmt = con.prepareStatement("use db2; Insert into Shipment (ItemID, Quantity,ShipmentDate) \n values(?,?,?);");
 			stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
 			stmt.setString(2, ""+quantity);
 			stmt.setString(3,"\'"+day.toString()+"\'");
@@ -106,7 +106,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from Item where "+itemCode+" = ItemCode or "+itemCode+"= '%'");
+			ResultSet rs = stmt.executeQuery("use db2; select * from Item where "+itemCode+" = ItemCode or "+itemCode+"= '%'");
 
 			String table = getTable(rs);
 			return table;
@@ -123,7 +123,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select s.* from Shipment s " + 
+			ResultSet rs = stmt.executeQuery("use db2; select s.* from Shipment s " + 
 					"		left join Item i on i.ID = s.ItemID" + 
 					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
 
@@ -142,7 +142,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select s.* from Purchase p " + 
+			ResultSet rs = stmt.executeQuery("use db2; select s.* from Purchase p " + 
 					"		left join Item i on i.ID = p.ItemID" + 
 					"	where "+itemCode+" = ItemCode or "+itemCode+" = '%';");
 
@@ -161,7 +161,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select  ItemCode, \n" + 
+			ResultSet rs = stmt.executeQuery("use db2; select  ItemCode, \n" + 
 					"		ItemDescription, \n" + 
 					"		IFNULL(sum(s.Quantity),0) - IFNULL(sum(p.Quantity),0) \n" + 
 					"			as NumAvailable\n" + 
@@ -186,7 +186,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("update Item set Price = "+price+" where ItemCode = "+itemCode+";");
+			int result = stmt.executeUpdate("use db2; update Item set Price = "+price+" where ItemCode = "+itemCode+";");
 
 			return result+" records affected.";
 
@@ -203,7 +203,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("delete from Item where ItemCode = "+itemCode+";");
+			int result = stmt.executeUpdate("use db2; delete from Item where ItemCode = "+itemCode+";");
 
 			return result+" records affected.";
 
@@ -220,7 +220,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("delete s from Shipment\n" + 
+			int result = stmt.executeUpdate("use db2; delete s from Shipment\n" + 
 					"		left join Item i on i.ID = s.ItemID\n" + 
 					"	where "+itemCode+" = ItemCode\n" + 
 					"	having ShipmentDate = max(ShipmentDate);");
@@ -239,7 +239,7 @@ public static String createPurchase(String code, int quantity){
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			int result = stmt.executeUpdate("delete p from Purchase\n" + 
+			int result = stmt.executeUpdate("use db2; delete p from Purchase\n" + 
 					"		left join Item i on i.ID = p.ItemID\n" + 
 					"	where "+itemCode+" = ItemCode\n" + 
 					"	having PurchaseDate = max(PurchaseDate);");
