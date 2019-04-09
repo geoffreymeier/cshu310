@@ -236,6 +236,25 @@ public static String createPurchase(String code, int quantity){
 		}
 	}
 
+	
+	public static String deletePurchase(String itemCode) {
+
+		Connection con = getConnection();
+
+		try {
+			java.sql.Statement stmt = con.createStatement();
+			int result = stmt.executeUpdate("use db2; delete p from Purchase\n" + 
+					"		left join Item i on i.ID = p.ItemID\n" + 
+					"	where \""+itemCode+"\" = ItemCode\n" + 
+					"	having PurchaseDate = max(PurchaseDate);");
+
+			return result+" records affected.";
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return "";
+		}
+	}
 
 
 	/**
