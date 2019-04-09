@@ -16,11 +16,11 @@ public class ProjectMethods {
 	PreparedStatement stmt = null;
 	Connection con = getConnection();
 	try {
-		stmt = con.prepareStatement("use db2; Insert into Item (ItemCode, ItemDescription, Price)  values(?,?,?);");
+		stmt = con.prepareStatement("use db2; Insert into Item (ItemCode, ItemDescription, Price) values(?,?,?);");
 		stmt.setString(1, ""+code); // input parameter			
 		stmt.setString(2, ""+description);
 		stmt.setString(3, ""+price);
-		stmt.execute();
+		int testing = stmt.executeUpdate();
       		System.out.println(("Item "+code+" created succesfully"));
 	} catch (SQLException ex) {
 			// handle any errors
@@ -50,6 +50,7 @@ public static String createPurchase(String code, int quantity){
 		stmt = con.prepareStatement("use db2; Insert into Purchase (ItemID, Quantity) \n values(?,?);");
 		stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
 		stmt.setString(2, ""+quantity);
+		stmt.execute();
       		System.out.println(("Purchase created succesfully"));
 	} catch (SQLException ex) {
 			// handle any errors
@@ -79,6 +80,7 @@ public static String createPurchase(String code, int quantity){
 			stmt.setString(1, "(select ID from Item where code like \""+code+"\")"); // input parameter			
 			stmt.setString(2, ""+quantity);
 			stmt.setString(3,"\'"+day.toString()+"\'");
+			stmt.execute();
 			System.out.println(("Shipment created succesfully"));
 		} catch (SQLException ex) {
 			// handle any errors
