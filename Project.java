@@ -11,8 +11,8 @@ public class Project{
 
 	public static void main(String[] args)throws ClassNotFoundException,  SQLException, InstantiationException, IllegalAccessException  {
 	Class.forName("com.mysql.jdbc.Driver").newInstance();
-	con = DriverManager.getConnection("jdbc:mysql://localhost:5940?useSSL=false&allowMultiQueries=true", "msandbox", "databasepassword");
-
+	con = DriverManager.getConnection("jdbc:mysql://localhost:5940?useSSL=false", "msandbox", "databasepassword");
+	System.out.println(con.toString());
 	if(args.length==0){
 	System.err.println ("Use java Project /? to get usage info");
 	System.exit(0);
